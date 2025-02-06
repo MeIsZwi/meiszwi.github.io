@@ -9,8 +9,31 @@ body {
     background-color: #000;
 }
 
+.nav-bar {
+    background-color: #0009;
+    position: fixed;
+    width: 100%;
+}
+
+.nav-bar a {
+    padding: 20px;
+    margin: 0px;
+    text-decoration: none;
+    display:inline-block;
+}
+
+.nav-bar a:hover {
+    background-color: #000;
+    transition: 1s;
+    color: #99ff99;
+}
+
+.sec h2 {
+    color: #99ff99;
+}
+
 .content {
-    background-image: linear-gradient(0, #000000ca, #000), url("Banner.png");
+    background-image: linear-gradient(0, #000000ca, #000), url("assets/banner.png");
     background-size: 100%;
     background-attachment: fixed;
     background-position: -50%;
@@ -20,11 +43,12 @@ body {
 
 .header {
     font-size: 3em;
-    color: #fff;
+    color: #99ff99;
     text-align: center;
     height: 25vh;
+    padding: 10vh;
 
-    background-image: linear-gradient(to bottom, #0000004c, #000), url("2.png");
+    background-image: linear-gradient(to bottom, #0000004c, #000), url("assets/2.png");
     background-size: 100%;
     background-position: -50%;
 }
