@@ -18,7 +18,7 @@
             <div class="main">
                 <div class="sec">
                     <h2>Flappy Zwi</h2>
-                    <canvas class="canvas" width="1024" height="512">Sorry... this canvas element isn't supported. What are you on Internet Explorer??</canvas>
+                    <canvas class="canvas" width="1024">Sorry... this canvas element isn't supported. What are you on Internet Explorer??</canvas>
                 </div>
             </div>
         </div>
@@ -26,11 +26,15 @@
 <script>
 
 const canvas = document.querySelector(".canvas");
+canvas.height = canvas.width * 0.5
+
 const ctx = canvas.getContext("2d");
 
 const birdImg = document.querySelector(".bird");
 
 const pipeImg = document.querySelector(".pipe");
+
+console.log(canvas.width);
 
 var birdY;
 var birdVY;
@@ -86,8 +90,6 @@ function update(delta) {
             running = false;
         }
 
-        console.log(birdVY);
-
         pipeX -= 0.2 * delta;
         pipe2X -= 0.2 * delta;
 
@@ -125,6 +127,8 @@ function draw() {
         ctx.font = "25px Arial";
         ctx.fillText("Tap or press any key...",0,50);
     }
+
+    ctx.setTransform(1,0,0,1,0,0);
 }
 
 function loop(timestamp) {
