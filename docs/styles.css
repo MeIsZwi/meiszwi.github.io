@@ -69,3 +69,7 @@ body {
 .main img {
     margin: 10px;
 }
+
+.canvas {
+    width: 100%;
+}
