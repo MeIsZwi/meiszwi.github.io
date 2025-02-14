@@ -33,7 +33,7 @@ body {
 }
 
 .content {
-    background-image: linear-gradient(0, #000000ca, #000), url("assets/banner.png");
+    background-image: linear-gradient(0, #000000ca, #000), url("assets/Banner.png");
     background-size: 100%;
     background-attachment: fixed;
     background-position: -50%;
