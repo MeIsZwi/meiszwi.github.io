@@ -33,7 +33,7 @@ body {
 }
 
 .content {
-    background-image: linear-gradient(0, #000000ca, #000), url("assets/Banner.png");
+    background-image: linear-gradient(0, #000000ca, #000), url("../assets/Banner.png");
     background-size: 100%;
     background-attachment: fixed;
     background-position: -50%;
@@ -48,7 +48,7 @@ body {
     height: 25vh;
     padding: 10vh;
 
-    background-image: linear-gradient(to bottom, #0000004c, #000), url("assets/2.png");
+    background-image: linear-gradient(to bottom, #0000004c, #000), url("../assets/2.png");
     background-size: 100%;
     background-position: -50%;
 }
@@ -68,4 +68,8 @@ body {
 
 .main img {
     margin: 10px;
+}
+
+.canvas {
+    width: 100%;
 }
