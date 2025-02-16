@@ -58,8 +58,7 @@ function jump() {
 }
 
 document.addEventListener("keydown", jump)
-canvas.addEventListener("touchstart", jump)
-canvas.addEventListener("mousedown", jump)
+canvas.addEventListener("click", jump)
 
 function reset() {
     birdY = 256 - 75 / 2;
