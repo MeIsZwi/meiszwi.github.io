@@ -8,16 +8,23 @@
     </head>
     <body>
         <div class="nav-bar">
-            <a href="https://meiszwi.github.io/">Home</a>
         </div>
         <div class="content">
             <div class="header">Games</div>
             <div class="main">
                 <div class="sec search">
-                    <a href="/flappyzwi"><h2>Flappy Zwi</h2></a>
+                    <a href="meiszwi.github.io/games/flappyzwi"><h2>Flappy Zwi</h2></a>
                     It's like flappy bird... but with my profile pic.
                 </div>
             </div>
         </div>
     </body>
+    <script>
+        fetch("navbar.html")
+            .then(response => response.text())
+            .then(data => {
+                document.querySelector(".nav-bar").innerHTML = data;
+            })
+            .catch(error => console.error("Error loading navbar:", error));
+    </script>
 </html>
