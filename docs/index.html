@@ -1,1 +1,42 @@
-
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="google-site-verification" content="vZiE12adJM38QsqhTBT_VHbCsiq0pCeI-chQfGpdJus" />
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Home | MeIsZwi</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <div class="nav-bar">
+        </div>
+        <div class="content">
+            <div class="header">MeIsZwi</div>
+            <div class="main">
+                <div class="sec">
+                    <h2>About Me</h2>
+                    I like to make Youtube videos. My videos are usually animation with some music videos mixed in. I also make some gaming live streams. Aside from my channel, I am also a part of <a href="https://www.youtube.com/@SRGCCreal">SRGCC</a> where we make skits and vlogs. My other hobbies are coding and game dev. I make games in many different engines and coding languages, including Scratch, Godot, Javascript, and Python. That's basically it.
+                </div>
+                <div class="sec">
+                    <h2>Links</h2>
+                    Here is a list of my links:
+                    <a href="https://www.youtube.com/@MeIsZwi">My Youtube channel</a>, 
+                    <a href="https://scratch.mit.edu/users/Zwi2/">Scratch</a>, 
+                    <a href="https://gamejolt.com/@MeIsZwi">Gamejolt</a>.
+                </div>
+                <div class="sec">
+                    <h2>More Coming Soon</h2>
+                    This website is under construction. Be sure to come back soon and look for updates!
+                </div>
+            </div>
+        </div>
+    </body>
+    <script>
+        fetch("navbar.html")
+            .then(response => response.text())
+            .then(data => {
+                document.querySelector(".nav-bar").innerHTML = data;
+            })
+            .catch(error => console.error("Error loading navbar:", error));
+    </script>
+</html>
