@@ -37,5 +37,11 @@
                 document.querySelector(".nav-bar").innerHTML = data;
             })
             .catch(error => console.error("Error loading navbar:", error));
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const redirect = urlParams.get('redirect');
+        if (redirect === "offscript") {
+            window.location = "sites.google.com/view/offscriptcom/";
+        }
     </script>
 </html>
