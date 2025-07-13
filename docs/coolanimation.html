@@ -30,9 +30,10 @@
 <script>
     const urlParams = new URLSearchParams(window.location.search);
     const url = urlParams.get('img');
+    const ext = urlParams.get('ext');
 
     const img = document.querySelector("#bird");
-    img.src = img;
+    img.src = "assets/" + img + "." + ext;
 </script>
 </body>
 </html>
