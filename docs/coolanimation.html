@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cool Animation</title>
+</head>
+<body>
+<style>
+    #bird {
+        position: absolute;
+
+        top: 500%;
+
+        animation-duration: 3s;
+        animation-name: fly;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+        animation-timing-function: ease-in-out;
+    }
+
+    @keyframes fly {
+        from {
+            top: 0%;
+        }
+        to {
+            top: 80%;
+        }
+    }
+</style>
+    <img src="assets/flapping_wings.gif" id="bird" alt="" width="75">
+</body>
+</html>
