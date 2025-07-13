@@ -27,5 +27,12 @@
     }
 </style>
     <img src="assets/flapping_wings.gif" id="bird" alt="" width="75">
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const url = urlParams.get('img');
+
+    const img = document.querySelector("#bird");
+    img.src = img;
+</script>
 </body>
 </html>
