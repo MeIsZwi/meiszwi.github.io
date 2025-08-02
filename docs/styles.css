@@ -39,7 +39,7 @@ body {
 }
 
 .glitch-project-broken::after {
-    content: "This project doesn't work anymore because glitch.com has removed project hosting. Sorry!";
+    content: "Sorry! This project doesn't work anymore because glitch.com has removed project hosting.";
     padding: 10px;
     margin: 5px;
     border-radius: 10px;
@@ -89,3 +89,4 @@ body {
 .canvas {
     width: 100%;
 }
+
