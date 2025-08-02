@@ -32,6 +32,22 @@ body {
     color: #99ff99;
 }
 
+.sec h2.striked {
+    color: #777777;
+    text-decoration: line-through;
+    text-decoration-color: #777777;
+}
+
+.glitch-project-broken::after {
+    content: "This project doesn't work anymore because glitch.com has removed project hosting. Sorry!";
+    padding: 10px;
+    margin: 5px;
+    border-radius: 10px;
+    display: block;
+    background-color: #000000;
+    color: #ff0000;
+}
+
 .content {
     background-image: linear-gradient(0, #000000ca, #000), url("../assets/Banner.png");
     background-size: 100%;
