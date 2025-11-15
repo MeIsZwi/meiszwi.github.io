@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home | MeIsZwi</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <img src="assets/cursor.png" class="cursor" width="20px">
+    <div class="navbar">
+    </div>
+    <div class="banner"></div>
+    <div class="content">
+        <img src="assets/pfp.png" alt="" width="100px">
+        <h1>About me</h1>
+        <p>I'm MeIsZwi. I like making music, coding games, and drawing. I really like Undertale and Deltarune. That's all about me ig...</p>
+        <br>
+        <h1>Links</h1>
+        <a href="https://youtube.com/@MeIsZwi">Youtube</a><br>
+        <a href="https://gamejolt.com/@MeIsZwi">Gamejolt</a><br>
+    </div>
+</body>
+<script>
+    const cursor = document.querySelector(".cursor");
+    document.addEventListener("mousemove", event => {
+        cursor.style.left = event.clientX + "px";
+        cursor.style.top = event.clientY + "px";
+    })
+
+    fetch("navbar.html")
+        .then(response => response.text())
+        .then(data => {
+            document.querySelector(".navbar").innerHTML = data;
+        })
+        .catch(error => console.error("Error loading navbar:", error));
+</script>
+</html>

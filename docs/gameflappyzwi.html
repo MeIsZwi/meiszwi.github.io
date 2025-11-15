@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games | MeIsZwi</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <img src="assets/flapping_wings.gif" class="bird" hidden>
+    <img src="assets/pipe.png" class="pipe" hidden>
+    <img src="assets/cursor.png" class="cursor" width="20px">
+    <div class="navbar">
+    </div>
+    <div class="banner"></div>
+    <div class="content">
+        <h1>Flappy Zwi</h1>
+        <p>Flapping a different bird</p>
+        <canvas class="canvas" width="1024">The Canvas element is unsupported by your browser</canvas>
+    </div>
+</body>
+<script>
+    const cursor = document.querySelector(".cursor");
+    document.addEventListener("mousemove", event => {
+        cursor.style.left = event.clientX + "px";
+        cursor.style.top = event.clientY + "px";
+    })
+
+    fetch("navbar.html")
+        .then(response => response.text())
+        .then(data => {
+            document.querySelector(".navbar").innerHTML = data;
+        })
+        .catch(error => console.error("Error loading navbar:", error));
+</script>
+<script>
+
+const canvas = document.querySelector(".canvas");
+canvas.height = canvas.width * 0.5
+
+const ctx = canvas.getContext("2d");
+
+const birdImg = document.querySelector(".bird");
+
+const pipeImg = document.querySelector(".pipe");
+
+console.log(canvas.width);
+
+var birdY;
+var birdVY;
+
+var running = false;
+
+var pipeY;
+var pipeX;
+var pipe2Y;
+var pipe2X;
+
+var score = 0;
+
+function jump() {
+    if(running) {
+        birdVY = -0.60;
+    }else {
+        reset();
+        running = true;
+    }
+}
+
+document.addEventListener("keydown", jump)
+canvas.addEventListener("touchend", jump)
+canvas.addEventListener("mousedown", jump)
+
+function reset() {
+    birdY = 256 - 75 / 2;
+    birdVY = 0;
+
+    pipeY = 256;
+    pipeX = 1024 - 256;
+    pipe2Y = 256;
+    pipe2X = 1024 + 256;
+
+    score = 0;
+}
+
+function point() {
+    score += 1;
+    if(score % 2 == 1) {
+        ctx.filter = "invert()"
+    }else {
+        ctx.filter = "none"
+    }
+}
+
+function update(delta) {
+    delta *= score/50 + 1
+    if(running) {
+        birdVY += 0.002 * delta;
+        birdY += birdVY * delta;
+
+        if(
+            birdY + 50 > 517 || birdY < -5 ||
+            (25 < pipeX + 50 && 75 > pipeX && (birdY + 50 > pipeY + 100 || birdY < pipeY - 100)) ||
+            (25 < pipe2X + 50 && 75 > pipe2X && (birdY + 50 > pipe2Y + 100 || birdY < pipe2Y - 100))
+        ) {
+            running = false;
+        }
+
+        pipeX -= 0.2 * delta;
+        pipe2X -= 0.2 * delta;
+
+        if(pipeX < -50) {
+            pipeX = 1024;
+            pipeY = Math.random() * (512 - 200) + 100;
+            point();
+        }
+
+        if(pipe2X < -50) {
+            pipe2X = 1024;
+            pipe2Y = Math.random() * (512 - 200) + 100;
+            point();
+        }
+    }
+}
+
+function draw() {
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    ctx.drawImage(birdImg, 25, birdY, 50, 50);
+
+    ctx.drawImage(pipeImg, pipeX, pipeY-512-100, 50, 512);
+    ctx.drawImage(pipeImg, pipeX, pipeY+100, 50, 512);
+
+    ctx.drawImage(pipeImg, pipe2X, pipe2Y-512-100, 50, 512);
+    ctx.drawImage(pipeImg, pipe2X, pipe2Y+100, 50, 512);
+
+    ctx.font = "50px Arial";
+    ctx.fillStyle = "#000";
+    ctx.fillText(score,512,50);
+
+    if(!running) {
+        ctx.font = "25px Arial";
+        ctx.fillText("Tap or press any key...",0,50);
+    }
+
+    ctx.setTransform(1,0,0,1,0,0);
+}
+
+function loop(timestamp) {
+  var delta = timestamp - lastRender
+
+  update(delta)
+  draw()
+
+  lastRender = timestamp
+  window.requestAnimationFrame(loop)
+}
+
+reset();
+
+var lastRender = 0
+window.requestAnimationFrame(loop)
+
+</script>
+
+</html>

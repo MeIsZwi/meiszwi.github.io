@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games | MeIsZwi</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <img src="assets/cursor.png" class="cursor" width="20px">
+    <div class="navbar">
+    </div>
+    <div class="banner"></div>
+    <div class="content">
+        <img src="assets/flapping_wings.gif" alt="" width="100px">
+        <h1>MeIsZwi Games</h1>
+        <p>Fun little webgames I made...</p>
+        <br><a href="https://meiszwi.github.io/gameflappyzwi.html">Flappy Zwi</a>
+    </div>
+</body>
+<script>
+    const cursor = document.querySelector(".cursor");
+    document.addEventListener("mousemove", event => {
+        cursor.style.left = event.clientX + "px";
+        cursor.style.top = event.clientY + "px";
+    })
+
+    fetch("navbar.html")
+        .then(response => response.text())
+        .then(data => {
+            document.querySelector(".navbar").innerHTML = data;
+        })
+        .catch(error => console.error("Error loading navbar:", error));
+</script>
+</html>

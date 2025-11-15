@@ -1,0 +1,71 @@
+* {
+    color: #141;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin: 0px;
+    cursor: none;
+}
+
+h1 {
+    color: #7a7;
+}
+
+.navbar {
+    position: fixed;
+    height: 64;
+    width: 100%;
+    background-image: linear-gradient(#fff, #fff0), linear-gradient(#bbbcbb, #fff);
+    border: 2px, solid, #eee;
+}
+
+.navbar .title {
+    padding: 20px;
+    display: inline-block;
+    color: #7a7;
+}
+
+.navbar a {
+    background-image: linear-gradient(#fff, #fff0), linear-gradient(#aba, #eee);
+    padding: 20px;
+    text-decoration: none;
+    border: 2px, solid, #eee;
+    border-radius: 20px;
+    border-top: none;
+    margin-left: 5px;
+    margin-right: 5px;
+    display: inline-block;
+    transition: 0.25s all;
+}
+
+.navbar a:hover {
+    transform: translate(0px, 5px);
+    transition: 0.25s all;
+    border: 2px, solid, #9b9;
+    border-radius: 20px;
+    border-top: none;
+}
+
+.banner {
+    width: 100%;
+    height: 40vh;
+    background-image: linear-gradient(#fff0, #ffff), url(assets/Banner.png);
+    background-size: cover;
+}
+
+.content {
+    text-align: center;
+    margin: 20px;
+}
+
+.content img {
+    border-radius: 20px;
+}
+
+.cursor {
+    position: fixed;
+    z-index: 100;
+    pointer-events: none;
+}
+
+.canvas {
+    width: 75%;
+}
