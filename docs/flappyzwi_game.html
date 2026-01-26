@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playing Flappy Zwi | MeIsZwi</title>
+    <link rel="shortcut icon" href="assets/flying.png" type="image/x-icon">
+    <link rel="stylesheet" href="global_styles.css">
+</head>
+<body>
+    <a class="home-page-link" href="https://meiszwi.github.io">Return to Home Page</a>
+    <div class="content">
+        <img src="assets/WebsiteBanner.png" alt="" class="banner">
+        
+        <h1>Flappy Zwi</h1>
+
+        <div class="game-canvas-container"><canvas id="gamecanvas"></canvas></div>
+</body>
+<script>
+
+const ctx = gamecanvas.getContext("2d");
+
+const birdImg = new Image()
+birdImg.src = "assets/flying.png"
+
+var birdY;
+var birdVY;
+
+var running = false;
+
+var pipeY;
+var pipeX;
+var pipe2Y;
+var pipe2X;
+
+var score = 0;
+
+function jump() {
+    if(running) {
+        birdVY = -0.60;
+    }else {
+        reset();
+        running = true;
+    }
+}
+
+document.addEventListener("keydown", jump)
+gamecanvas.addEventListener("touchend", jump)
+gamecanvas.addEventListener("mousedown", jump)
+
+function reset() {
+    birdY = 256 - 75 / 2;
+    birdVY = 0;
+
+    pipeY = 256;
+    pipeX = 1024 - 256;
+    pipe2Y = 256;
+    pipe2X = 1024 + 256;
+
+    score = 0;
+}
+
+function point() {
+    score += 1;
+    if(score % 2 == 1) {
+        ctx.filter = "invert()"
+    }else {
+        ctx.filter = "none"
+    }
+}
+
+function update(delta) {
+    delta *= score/50 + 1
+    if(running) {
+        birdVY += 0.002 * delta;
+        birdY += birdVY * delta;
+
+        if(
+            birdY + 50 > 517 || birdY < -5 ||
+            (25 < pipeX + 50 && 75 > pipeX && (birdY + 50 > pipeY + 100 || birdY < pipeY - 100)) ||
+            (25 < pipe2X + 50 && 75 > pipe2X && (birdY + 50 > pipe2Y + 100 || birdY < pipe2Y - 100))
+        ) {
+            running = false;
+        }
+
+        pipeX -= 0.2 * delta;
+        pipe2X -= 0.2 * delta;
+
+        if(pipeX < -50) {
+            pipeX = 1024;
+            pipeY = Math.random() * (512 - 200) + 100;
+            point();
+        }
+
+        if(pipe2X < -50) {
+            pipe2X = 1024;
+            pipe2Y = Math.random() * (512 - 200) + 100;
+            point();
+        }
+    }
+}
+
+function draw() {
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(0,0,gamecanvas.width,gamecanvas.height);
+
+    ctx.drawImage(birdImg, 25, birdY, 50, 50);
+
+    ctx.drawImage(birdImg, pipeX, pipeY-512-100, 50, 512);
+    ctx.drawImage(birdImg, pipeX, pipeY+100, 50, 512);
+
+    ctx.drawImage(birdImg, pipe2X, pipe2Y-512-100, 50, 512);
+    ctx.drawImage(birdImg, pipe2X, pipe2Y+100, 50, 512);
+
+    ctx.font = "50px Arial";
+    ctx.fillStyle = "#000";
+    ctx.fillText(score,512,50);
+
+    if(!running) {
+        ctx.font = "25px Arial";
+        ctx.fillText("Tap or press any key...",0,50);
+    }
+}
+
+function loop(timestamp) {
+  var delta = timestamp - lastRender
+
+  update(delta)
+  draw()
+
+  lastRender = timestamp
+  window.requestAnimationFrame(loop)
+}
+
+reset();
+
+var lastRender = 0
+window.requestAnimationFrame(loop)
+
+</script>
+</html>
