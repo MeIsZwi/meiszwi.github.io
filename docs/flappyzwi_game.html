@@ -14,128 +14,141 @@
         
         <h1>Flappy Zwi</h1>
 
-        <div class="game-canvas-container"><canvas id="gamecanvas"></canvas></div>
+        <div class="game-canvas-container"><canvas id="gamecanvas" width="1024" height="512"></canvas></div>
 </body>
 <script>
 
 const ctx = gamecanvas.getContext("2d");
+const scale = gamecanvas.width / 1024;
 
-const birdImg = new Image()
-birdImg.src = "assets/flying.png"
+const birdFlyingImg = new Image();
+birdFlyingImg.src = "assets/flying.png";
 
-var birdY;
-var birdVY;
+const birdImg = new Image();
+birdImg.src = "assets/neutral.png";
 
-var running = false;
+const pipeImg = new Image();
+pipeImg.src = "assets/pipe.png";
 
-var pipeY;
-var pipeX;
-var pipe2Y;
-var pipe2X;
+var gamestarted = false;
+
+var birdX = 0;
+var birdY = 256-32;
+var birdVY = 0;
 
 var score = 0;
 
-function jump() {
-    if(running) {
-        birdVY = -0.60;
-    }else {
-        reset();
-        running = true;
-    }
+const gravity = 5;
+
+var pipes = [
+    {x: 1024, y:256, gap: 256}
+]
+
+function newPipe() {
+    pipes.push(
+        {x: 1024+32, y: Math.random() * (512-(256-score*7)) + (256-score*7)/2, gap: 256-score*7}
+    )
 }
 
-document.addEventListener("keydown", jump)
-gamecanvas.addEventListener("touchend", jump)
-gamecanvas.addEventListener("mousedown", jump)
+gamecanvas.addEventListener("mousedown", jump);
+document.addEventListener("keydown", jump);
+gamecanvas.addEventListener("touchstart", jump);
 
 function reset() {
-    birdY = 256 - 75 / 2;
-    birdVY = 0;
-
-    pipeY = 256;
-    pipeX = 1024 - 256;
-    pipe2Y = 256;
-    pipe2X = 1024 + 256;
-
     score = 0;
+    pipes = [
+        {x: 1024, y:256, gap: 256}
+    ]
+    gamestarted = false;
+
+    birdX = 0;
+    birdY = 256-32;
+    birdVY = 0;
 }
 
-function point() {
-    score += 1;
-    if(score % 2 == 1) {
-        ctx.filter = "invert()"
-    }else {
-        ctx.filter = "none"
-    }
+function jump() {
+    birdVY = -30;
+    gamestarted = true;
 }
 
 function update(delta) {
-    delta *= score/50 + 1
-    if(running) {
-        birdVY += 0.002 * delta;
-        birdY += birdVY * delta;
+    delta /= 100
 
-        if(
-            birdY + 50 > 517 || birdY < -5 ||
-            (25 < pipeX + 50 && 75 > pipeX && (birdY + 50 > pipeY + 100 || birdY < pipeY - 100)) ||
-            (25 < pipe2X + 50 && 75 > pipe2X && (birdY + 50 > pipe2Y + 100 || birdY < pipe2Y - 100))
-        ) {
-            running = false;
+    if(!gamestarted) {
+        return;
+    }
+
+    birdVY += gravity * delta;
+    birdY += birdVY * delta;
+
+    if(birdY < -16 || birdY > 512 - 48) {
+        reset();
+    }
+
+    for(var pipei=0; pipei < pipes.length; pipei++) {
+        var pipe = pipes[pipei];
+
+        pipe.x -= 15*delta
+
+        if(pipe.x < 512 & pipes.length < 2) {
+            newPipe();
         }
 
-        pipeX -= 0.2 * delta;
-        pipe2X -= 0.2 * delta;
-
-        if(pipeX < -50) {
-            pipeX = 1024;
-            pipeY = Math.random() * (512 - 200) + 100;
-            point();
+        if(pipe.x < -32) {
+            pipes.splice(pipei, 1);
+            score += 1;
         }
 
-        if(pipe2X < -50) {
-            pipe2X = 1024;
-            pipe2Y = Math.random() * (512 - 200) + 100;
-            point();
+        if (!(pipe.x > 96 || birdY+16 > pipe.y-pipe.gap/2)) {
+            reset()
+        }
+
+        if (!(pipe.x > 96 || birdY+64 < pipe.y+pipe.gap/2)) {
+            reset()
         }
     }
 }
 
 function draw() {
-    ctx.fillStyle = "#fff";
-    ctx.fillRect(0,0,gamecanvas.width,gamecanvas.height);
+    ctx.fillStyle = "#aaddff";
+    ctx.fillRect(0,0,1024,512);
 
-    ctx.drawImage(birdImg, 25, birdY, 50, 50);
+    ctx.font = "64px sans-serif";
+    ctx.fillStyle="black";
+    ctx.textBaseline = "top"
 
-    ctx.drawImage(birdImg, pipeX, pipeY-512-100, 50, 512);
-    ctx.drawImage(birdImg, pipeX, pipeY+100, 50, 512);
+    if(!gamestarted) {
+        ctx.fillText("Click to start!", 0, 0, 1024);
+    }else {
+        ctx.fillText(score, 0, 0, 1024);
+    }
 
-    ctx.drawImage(birdImg, pipe2X, pipe2Y-512-100, 50, 512);
-    ctx.drawImage(birdImg, pipe2X, pipe2Y+100, 50, 512);
+    if(birdVY < 0) {
+        ctx.drawImage(birdFlyingImg, birdX, birdY, 64, 64)
+    } else {
+        ctx.drawImage(birdImg, birdX, birdY, 64, 64)
+    }
 
-    ctx.font = "50px Arial";
-    ctx.fillStyle = "#000";
-    ctx.fillText(score,512,50);
+    for(var pipei=0; pipei < pipes.length; pipei++) {
+        var pipe = pipes[pipei];
 
-    if(!running) {
-        ctx.font = "25px Arial";
-        ctx.fillText("Tap or press any key...",0,50);
+        ctx.drawImage(pipeImg, pipe.x - 32, 0, 64, pipe.y - pipe.gap/2);
+        ctx.drawImage(pipeImg, pipe.x - 32, pipe.y+pipe.gap/2, 64, 512);
     }
 }
 
 function loop(timestamp) {
-  var delta = timestamp - lastRender
+  var delta = timestamp - lastRender;
 
-  update(delta)
-  draw()
+  update(delta);
+  draw();
 
-  lastRender = timestamp
-  window.requestAnimationFrame(loop)
+  lastRender = timestamp;
+  window.requestAnimationFrame(loop);
 }
 
-reset();
-
-var lastRender = 0
-window.requestAnimationFrame(loop)
+var lastRender = 0;
+window.requestAnimationFrame(loop);
 
 </script>
 </html>
